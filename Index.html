@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        .welcome-banner {
+            background-color: blue;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-banner">Herzlich Willkommen</div>
+    <img src="multivac-logo.png" alt="Multivac Logo" style="display: block; margin: 0 auto; margin-bottom: 20px; width: 200px;">
+    <h1>Upload Files</h1>
+    <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required />
+        <button type="submit">Upload</button>
+    </form>
+    <div id="message"></div>
+    <script>
+        const form = document.getElementById('uploadForm');
+        const message = document.getElementById('message');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            message.textContent = result.message;
+        });
+    </script>
+</body>
+</html>
